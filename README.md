@@ -34,3 +34,10 @@ ansible-playbook -i inventory/sf_hwork.yml --tags=deploy_vsftpd playbooks/playbo
 ```
 ansible-playbook -i inventory/localhost.yml playbooks/playbook_h.yml -v
 ```
+### Playbook добавления пользователя
+
+Используется для до добавления пользователя с правами sudo на удаленный хост.
+
+```
+ansible-playbook --vault-password-file=/opt/vault-pass -i inventory/sf_hwork.yml playbooks/add_user.yml -v
+```
