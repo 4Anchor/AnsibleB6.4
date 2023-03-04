@@ -1,0 +1,12 @@
+- hosts: sf_hwork
+  become: True
+  roles:
+    - role: vsftpd
+  tags: deploy_vsftpd
+
+- hosts: sf_postfix
+  become: True
+  roles:
+    - role: postfix
+  tags: deploy_postfix
+

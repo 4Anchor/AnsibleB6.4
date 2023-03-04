@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  description: Installs, configures and adds user for vsftpd
+  min_ansible_version: 2.4
+  github_branch: master
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  galaxy_tags:
+    - networking
+    - ftp
+    - sftp
+    - vsftpd
+dependencies:
+  - role: openssl
+    when:
+      - vsftpd_enable_ssl|default(true)
+    tags:
+      - openssl-dependency
+      - dependencies
+      - openssl
