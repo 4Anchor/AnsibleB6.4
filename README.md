@@ -41,3 +41,17 @@ ansible-playbook -i inventory/localhost.yml playbooks/playbook_h.yml -v
 ```
 ansible-playbook --vault-password-file=/opt/vault-pass -i inventory/sf_hwork.yml playbooks/add_user.yml -v
 ```
+
+### Playbook добавления пользователей и группы
+
+Используется для до добавления нескольких пользователей и группы "Superuser" с правами sudo на удаленный хост.
+
+```
+ansible-playbook playbooks/superuser.yml -i inventory/sf_hwork.yml --vault-password-file=/opt/vault-pass -v
+```
+### Playbook установки dnsmasq и nginx+php-fpm
+
+Используется для установки на хост сервиса dnsmasq и nginx+php-fpm адрес страницы для проверки /info.php
+```
+ansible-playbook -i inventory/sf_hwork.yml --tags=deploy_nginx playbooks/playbook-all.yml -v
+```

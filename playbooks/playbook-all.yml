@@ -3,6 +3,10 @@
   roles:
     - role: vsftpd
   tags: deploy_vsftpd
+  roles:
+    - role: nginx
+    - role: dnsmasq
+  tags: deploy_nginx
 
 - hosts: sf_postfix
   become: True

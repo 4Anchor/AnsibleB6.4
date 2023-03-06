@@ -1,0 +1,11 @@
+---
+#PHP
+version: 8.1
+ansible_folder: /opt/nginx/ansible
+php_folder: /var/www/html
+# vars file for nginx
+_nginx_user:
+  default: nginx
+  Debian: root
+
+nginx_user: "{{ _nginx_user[ansible_os_family] | default(_nginx_user['default']) }}"
