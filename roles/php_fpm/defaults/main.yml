@@ -1,0 +1,56 @@
+---
+# defaults file for php-fpm
+
+# These are examples which should be put in inventory group_vars, host_vars or
+# inline vars
+
+# php_origin: 'default' (Debian repositories) or 'sury' (deb.sury.org)
+php_origin: default
+
+# APT source list file will go in
+# /etc/apt/sources.list.d/{{ php_sury_file }}.list
+php_sury_file: php
+php_sury_apt_key_url: https://packages.sury.org/php/apt.gpg
+php_sury_apt_key: /etc/apt/trusted.gpg.d/sury.gpg
+php_sury_apt_repository:
+  "deb [signed-by={{ php_sury_apt_key }}] https://packages.sury.org/php
+  {{ ansible_distribution_release }} main"
+
+# php_versions: define php version(s) to install.
+# Multiple versions can be installed on the same machine.
+names: 'www'
+php_versions:
+#   - '8.0'
+  - '8.1'
+#  - '8.2'
+
+# php_modules: define php modules packages to install for each php version.
+# php_modules:
+#   - curl
+#   - gd
+
+# fpm_pools: define variables for specific pool types
+fpm_pools:
+#   - name: 'mypool'
+#     php_version: '7.4'
+#     listen_owner: www-data
+#     listen_group: www-data
+#     type: static
+#     max_children: 10
+#   - name: 'yourpool'
+#     php_version: '8.0'
+#     listen_owner: www-data
+#     listen_group: www-data
+#     type: dynamic
+#     max_children: 5
+#     start_servers: 2
+#     min_spare_servers: 1
+#     max_spare_servers: 3
+  - name: 'www'
+    php_version: '8.1'
+    listen_owner: www-data
+    listen_group: www-data
+    type: ondemand
+    max_children: 120
+    process_idle_timeout: 120
+    memory_limit: 128M

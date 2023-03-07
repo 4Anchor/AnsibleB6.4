@@ -1,7 +1,8 @@
 sf_hwork:
   hosts:
-    ansible-home:
-      ansible_host: 158.160.52.110
+    sf_hwork:
+      ansible_host: 158.160.62.82
+#      ansible_host: 158.160.52.110
   vars:
     ansible_user: anchor
     ansible_ssh_private_key_file: ~/.ssh/id_rsa

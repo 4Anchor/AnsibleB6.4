@@ -55,3 +55,20 @@ ansible-playbook playbooks/superuser.yml -i inventory/sf_hwork.yml --vault-passw
 ```
 ansible-playbook -i inventory/sf_hwork.yml --tags=deploy_nginx playbooks/playbook-all.yml -v
 ```
+
+### Playbook добавления пользователя и установки Nginx
+
+Используется для до добавления пользователя user с правами sudo на удаленный хост и добавляет Вэб сервер Nginx слушающий 9000 port PHP.
+
+```
+ansible-playbook --vault-password-file=/opt/vault-pass -i inventory/sf_web.yml --tags=deploy_nginxp playbooks/playbook_hm.yml -v
+```
+
+### Playbook установки PHP-FPM
+
+Используется для до добавления пользователя user с правами sudo на удаленный хост и утсновка PHP-FPM с 9000 открытым port .
+
+```
+ansible-playbook --vault-password-file=/opt/vault-pass -i inventory/sf_web.yml --tags=deploy_php playbooks/playbook_hm.yml -v
+```
+

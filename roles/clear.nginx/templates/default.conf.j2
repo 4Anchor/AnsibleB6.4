@@ -1,0 +1,22 @@
+{{ ansible_managed | comment }}
+server {
+    listen       {{ nginx_port }};
+    root {{ ansible_folder }};
+    index index.php index.html index.htm index.nginx-debian.html;
+    server_name  localhost;
+
+       location / {
+                try_files $uri $uri/ =404;
+        }
+
+        location ~ .php$ {
+        fastcgi_pass 192.168.10.3:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME /scripts$fastcgi_script_name;
+        include /etc/nginx/fastcgi_params;
+}
+
+        location ~ /\.ht {
+                deny all;
+        }
+}

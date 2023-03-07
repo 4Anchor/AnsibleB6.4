@@ -1,0 +1,7 @@
+---
+# handlers file for nginx
+
+   - name: restart ssh
+     service:
+       name=sshd
+       state=restarted

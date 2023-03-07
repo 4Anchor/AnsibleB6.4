@@ -1,0 +1,16 @@
+- name: Install and configure nginx
+  hosts: nginx_host
+  become: True
+  roles:
+    - role: useradd
+    - role: clear.nginx
+  tags: deploy_nginxp
+
+- name: Install and configure php-fpm
+  hosts: php_fpm_host
+  become: True
+  roles:
+    - role: useradd
+    - role: php_fpm
+  tags: deploy_php
+

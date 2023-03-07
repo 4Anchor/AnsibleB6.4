@@ -1,0 +1,81 @@
+---
+# tasks file for php-fpm
+- name: origin
+  block:
+    - name: apt key
+      ansible.builtin.get_url:
+        url: "{{ php_sury_apt_key_url }}"
+        dest: "{{ php_sury_apt_key }}"
+        mode: 0644
+      # https://github.com/ansible/ansible/issues/65687
+      when: not ansible_check_mode
+      tags:
+        - php-fpm
+        - apt
+        - key
+
+    - name: sury repo
+      ansible.builtin.template:
+        src: php.list.j2
+        dest: "/etc/apt/sources.list.d/{{ php_sury_file }}.list"
+        mode: 0644
+      tags:
+        - php-fpm
+        - apt
+        - repository
+
+    - name: stat
+      ansible.builtin.stat:
+        path: "/etc/apt/sources.list.d/{{ php_sury_file }}.list"
+      register: repo
+      tags:
+        - php-fpm
+        - apt
+        - repository
+
+  when:
+    - php_origin is defined
+    - php_origin == "sury"
+
+- name: package
+  ansible.builtin.package:
+    name: "php{{ item }}-fpm"
+    update_cache: true
+  loop: "{{ php_versions }}"
+  when:
+    ( php_origin is undefined or php_origin == "default" ) or
+    ( php_origin == "sury" and repo.stat.exists )
+  tags:
+    - php-fpm
+    - package
+- name: modules
+  ansible.builtin.package:
+    name: "php{{ item.0 }}-{{ item.1 }}"
+    update_cache: true
+  loop: "{{ php_versions | product(php_modules) }}"
+  when:
+    - php_modules is defined
+    - ( php_origin is undefined or php_origin == "default" ) or
+      ( php_origin == "sury" and repo.stat.exists )
+  tags:
+    - php-fpm
+    - package
+    - modules
+
+- name: "configure pool(s)"
+  ansible.builtin.template:
+    src: php-fpm-pool.conf.j2
+    dest: "/etc/php/{{ item.php_version }}/fpm/pool.d/{{ item.name }}.conf"
+    mode: 0644
+    backup: true
+   
+  loop: "{{ fpm_pools }}"
+  notify: php-fpm restart
+  when:
+    - fpm_pools is defined
+  tags:
+    - php-fpm
+    - pools
+
+- name: config
+  import_tasks: config.yml

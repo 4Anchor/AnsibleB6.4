@@ -1,0 +1,5 @@
+---
+userpass: "Abc_1234"
+admin_group: "superusers"
+users:
+- "user"

@@ -1,0 +1,13 @@
+sf_web:
+  children:
+    nginx_host:
+      hosts:
+        ansible-home:
+          ansible_host: 158.160.52.110
+    php_fpm_host:
+      hosts:
+        ansible-home2:
+          ansible_host: 158.160.62.82
+  vars:
+    ansible_user: anchor
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa

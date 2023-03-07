@@ -1,0 +1,15 @@
+---
+- name: conf.d
+  ansible.builtin.template:
+    src: "php-{{ item.key }}-{{ item.value }}.j2"
+    dest:
+      "/etc/php/{{ php_version |
+      default(__php_version) }}/{{ item.key }}/conf.d/{{ item.value }}"
+    mode: 0644
+  become: true
+  loop: "{{ php_ini_templates }}"
+  notify: php-fpm reload
+  when: php_ini_templates is defined
+  tags:
+    - php-fpm
+    - conf.d

@@ -1,0 +1,36 @@
+; {{ ansible_managed }}. role: {{ role_name }}, template: php-fpm-pool.conf.j2
+
+[{{ item.name }}]
+user = www-data
+group = www-data
+listen = {{ ansible_facts.eth0.ipv4.address }}:9000
+{% if item.listen_owner is defined %}
+listen.owner = {{ item.listen_owner }}
+{% endif %}
+{% if item.listen_group is defined %}
+listen.group = {{ item.listen_group }}
+{% endif %}
+
+pm = {{ item.type }}
+pm.max_children = {{ item.max_children | default(5) }}
+{% if item.start_server is defined %}
+pm.start_servers = {{ item.start_servers }}
+{% endif %}
+{% if item.min_spare_servers is defined %}
+pm.min_spare_servers = {{ item.min_spare_servers }}
+{% endif %}
+{% if item.max_spare_servers is defined %}
+pm.max_spare_servers = {{ item.max_spare_servers }}
+{% endif %}
+{% if item.process_idle_timeout is defined %}
+pm.process_idle_timeout = {{ item.process_idle_timeout }}
+{% endif %}
+
+env[HOSTNAME] = $HOSTNAME
+env[PATH] = /usr/local/bin:/usr/bin:/bin
+env[TMP] = /tmp
+env[TMPDIR] = /tmp
+env[TEMP] = /tmp
+{% if item.memory_limit is defined %}
+php_value[memory_limit] = {{ item.memory_limit }}
+{% endif %}

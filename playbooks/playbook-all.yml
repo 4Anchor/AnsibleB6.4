@@ -7,6 +7,9 @@
     - role: nginx
     - role: dnsmasq
   tags: deploy_nginx
+  roles:
+    - role: php_fpm
+  tags: deploy_user
 
 - hosts: sf_postfix
   become: True
